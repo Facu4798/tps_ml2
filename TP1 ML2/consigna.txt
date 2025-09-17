@@ -1,0 +1,11 @@
+En este ejercicio debe resolverse un problema de clasificación binario, 
+utilizando el dataset Credit Card Fraud, disponible en Kaggle. Puede descargar 
+el dataset en https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud. 
+Consignas: 
+El objetivo es obtener un modelo de clasificación binaria para la solución de 
+este problema. Para esto, separe el dataset en conjuntos de entrenamiento y 
+prueba utilizando el comando train_test_split, con una fracción de datos de 
+prueba entre 20% y 30%. Luego, entrene el modelo y evalúe su desempeño 
+mediante cross-validation, comparando con un dummy classifier. Luego, en 
+base a las métricas Precision, Recall, Curva Precision vs Recall y curva ROC, 
+seleccione un umbral para el cual modelo tenga un buen desempeño.
