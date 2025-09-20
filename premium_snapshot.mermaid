@@ -1,0 +1,28 @@
+
+erDiagram
+
+%% fact table relationships
+
+
+%% ft: facto, ss: frecuencia carga(segundos)
+ft_policytrans_ss {
+    string Id_Fecha_Transaccion fk   
+    %% se conecta con date_key
+    string Id_Fecha_Efectiva fk     
+    %% se conecta con date_key
+    string policyHolder_key fk
+    string Id_Empleado fk
+    string Id_Covertura fk
+    string Id_item fk
+    string policy_transation_type_key fk
+    string policy_transaction_audit_key fk
+    Int policy_number
+    string policy_transaction_number
+    string policy_transaction_dollar_amount
+    string id_Transaccion_Tipo pk
+    string id_Operacion_Tipo 
+    float Valuacion
+    timestamp etl_ts
+}
+
+

@@ -15,18 +15,16 @@ dim_cobertura_inmu_ss ||--|| link_item_cobertura_ss: Id_Item
 dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
 
 %% multivalued dimension
-dim_Asegurado_d ||--|{ br_Asegurado_Clasificacion: Id_Asegurado
-br_Asegurado_Clasificacion }|--|| dim_north_american_industry_classification: NAICS_Code
-br_Asegurado_Clasificacion }|--|| dim_standard_industrial_classification: SIC_Code
+dim_Asegurado_d ||--|{ br_Asegurado_Clasificacion_d: Id_Asegurado
+br_Asegurado_Clasificacion_d }|--|| dim_north_american_industry_classification_w: NAICS_Code
+br_Asegurado_Clasificacion_d }|--|| dim_standard_industrial_classification_w: SIC_Code
 
 %% fact description
-dim_coberturas ||--|{ ft_policytrans_ss: Id_Covertura
+dim_coberturas_d ||--|{ ft_policytrans_ss: Id_Covertura
 
 %% no longer degerate
-dim_policy ||--|{ ft_policytrans_ss: policy_number
+dim_policy_d ||--|{ ft_policytrans_ss: policy_number
 
-
-dim_policy_transaction_audit ||--|{ ft_policytrans_ss: contains
 
 %% ft: facto, ss: frecuencia carga(segundos)
 ft_policytrans_ss {
@@ -79,18 +77,18 @@ dim_Asegurado_d {
 }
 
 %% Bridge
-br_Asegurado_Clasificacion {
+br_Asegurado_Clasificacion_d {
     string Id_Asegurado fk
     string NAICS_Code fk
     string SIC_Code fk
 }
 
-dim_north_american_industry_classification {
+dim_north_american_industry_classification_w {
     string NAICS_Code pk
     string NAICS_Desc
 }
 
-dim_standard_industrial_classification {
+dim_standard_industrial_classification_w {
     string SIC_Code pk
     string SIC_Desc
 }
@@ -135,7 +133,7 @@ dim_cobertura_pers_ss {
 
 
 %% Coverages descriptiva
-dim_coberturas {
+dim_coberturas_d {
     string Id_Covertura pk
     string Descripcion
     string Tipo_Cobertura
@@ -146,7 +144,7 @@ dim_coberturas {
 
 
 %% no longer degerate
-dim policy{
+dim_policy_d{
     string Policy_number pk
     string Policy_type
     float Riesgo
