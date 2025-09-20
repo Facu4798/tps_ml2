@@ -1,0 +1,160 @@
+
+erDiagram
+
+
+%% fact table relationships
+dim_Fecha ||--|{ ft_policytrans_ss: 
+    "Id_Fecha_Transaccion
+    Id_Fecha_Efectiva"
+dim_Asegurado_d ||--|{ ft_policytrans_ss: Id_Asegurado
+dim_Empleado_d ||--|{ ft_policytrans_ss: Id_Empleado
+%% Supertypes and subtypes
+link_item_cobertura_ss ||--|| ft_policytrans_ss: Id_Item
+dim_cobertura_auto_ss ||--|| link_item_cobertura_ss: Id_Item
+dim_cobertura_inmu_ss ||--|| link_item_cobertura_ss: Id_Item
+dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
+
+%% multivalued dimension
+dim_Asegurado_d ||--|{ br_Asegurado_Clasificacion: Id_Asegurado
+br_Asegurado_Clasificacion }|--|| dim_north_american_industry_classification: NAICS_Code
+br_Asegurado_Clasificacion }|--|| dim_standard_industrial_classification: SIC_Code
+
+%% fact description
+dim_coberturas ||--|{ ft_policytrans_ss: Id_Covertura
+
+%% no longer degerate
+dim_policy ||--|{ ft_policytrans_ss: policy_number
+
+
+dim_policy_transaction_audit ||--|{ ft_policytrans_ss: contains
+
+%% ft: facto, ss: frecuencia carga(segundos)
+ft_policytrans_ss {
+    string Id_Fecha_Transaccion fk   
+    %% se conecta con date_key
+    string Id_Fecha_Efectiva fk     
+    %% se conecta con date_key
+    string policyHolder_key fk
+    string Id_Empleado fk
+    string Id_Covertura fk
+    string Id_item fk
+    string policy_transation_type_key fk
+    string policy_transaction_audit_key fk
+    Int policy_number
+    string policy_transaction_number
+    string policy_transaction_dollar_amount
+    string id_Transaccion_Tipo pk
+    string id_Operacion_Tipo 
+    float Valuacion
+    timestamp etl_ts
+}
+
+
+%% Dimension Role Playing
+dim_Fecha {
+    string date_key pk
+    int year
+    int month
+    int day
+    string dow
+    holiday bool
+}
+
+
+
+
+
+%% MULTIVALUED DIMENSION ATTRIBUTES (with bridge)
+
+dim_Asegurado_d {
+    date Fecha_Edit
+    string Id_Asegurado pk
+    string Npmbre_Completo
+    string date_of_birth 
+    string gender  
+    int Cod_postal
+    string Desc_Segmento_Hist
+    string Desc_Segmento
+    string Estado_Civil
+}
+
+%% Bridge
+br_Asegurado_Clasificacion {
+    string Id_Asegurado fk
+    string NAICS_Code fk
+    string SIC_Code fk
+}
+
+dim_north_american_industry_classification {
+    string NAICS_Code pk
+    string NAICS_Desc
+}
+
+dim_standard_industrial_classification {
+    string SIC_Code pk
+    string SIC_Desc
+}
+
+
+
+
+
+%% SUPERTYPES AND SUBTYPES
+
+%% SUPERTYPE
+link_item_cobertura_ss {
+    string Id_Item pk
+    string Linea_de_negocio
+}
+
+%% SUBTYPE
+dim_cobertura_auto_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    string Desc_Marca
+    int Ano_Fabricacion
+    string Desc_clasificacion
+}
+
+%% SUBTYPE
+dim_cobertura_inmu_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    Int Metros_Cuadrados
+    date Fecha_Construccion
+    string Cod_Postal
+}
+
+%% SUBTYPE
+dim_cobertura_pers_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    string Desc_Item
+}
+
+
+
+%% Coverages descriptiva
+dim_coberturas {
+    string Id_Covertura pk
+    string Descripcion
+    string Tipo_Cobertura
+    string Categoria
+    float Limite
+    float Deducible
+}
+
+
+%% no longer degerate
+dim policy{
+    string Policy_number pk
+    string Policy_type
+    float Riesgo
+    string Nombre_Underwriter
+}
+
+dim_Empleado_d {
+    string id
+    string FullName
+    string Fecha_Nacimiento
+}
