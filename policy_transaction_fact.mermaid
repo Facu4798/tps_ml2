@@ -20,29 +20,25 @@ br_Asegurado_Clasificacion_d }|--|| dim_north_american_industry_classification_w
 br_Asegurado_Clasificacion_d }|--|| dim_standard_industrial_classification_w: SIC_Code
 
 %% fact description
-dim_coberturas_d ||--|{ ft_policytrans_ss: Id_Covertura
+dim_coberturas_d ||--|{ ft_policytrans_ss: Id_Cobertura
 
 %% no longer degerate
-dim_policy_d ||--|{ ft_policytrans_ss: policy_number
+dim_poliza_d ||--|{ ft_policytrans_ss: Id_Poliza
 
 
 %% ft: facto, ss: frecuencia carga(segundos)
 ft_policytrans_ss {
+    string Id_Poliza_Transaccion pk
     string Id_Fecha_Transaccion fk   
-    %% se conecta con date_key
     string Id_Fecha_Efectiva fk     
-    %% se conecta con date_key
-    string policyHolder_key fk
+    string Id_Asegurado fk
     string Id_Empleado fk
-    string Id_Covertura fk
-    string Id_item fk
-    string policy_transation_type_key fk
-    string policy_transaction_audit_key fk
-    Int policy_number
-    string policy_transaction_number
-    string policy_transaction_dollar_amount
-    string id_Transaccion_Tipo pk
-    string id_Operacion_Tipo 
+    string Id_Cobertura fk
+    string Id_Item fk
+    Int Id_Poliza fk
+    float Monto
+    string Id_Transaccion_Tipo pk
+    string Id_Operacion_Tipo 
     float Valuacion
     timestamp etl_ts
 }
@@ -50,15 +46,14 @@ ft_policytrans_ss {
 
 %% Dimension Role Playing
 dim_Fecha {
-    string date_key pk
-    int year
-    int month
-    int day
-    string dow
-    holiday bool
+    string Id_Fecha pk
+    int Mes
+    int Ano
+    int Dia
+    int Trimestre
+    string Dia_Semana
+    bool Feriado
 }
-
-
 
 
 
@@ -67,9 +62,9 @@ dim_Fecha {
 dim_Asegurado_d {
     date Fecha_Edit
     string Id_Asegurado pk
-    string Npmbre_Completo
-    string date_of_birth 
-    string gender  
+    string Nombre_Completo
+    string Fecha_Nacimiento 
+    string Genero
     int Cod_postal
     string Desc_Segmento_Hist
     string Desc_Segmento
@@ -84,13 +79,13 @@ br_Asegurado_Clasificacion_d {
 }
 
 dim_north_american_industry_classification_w {
-    string NAICS_Code pk
-    string NAICS_Desc
+    string Cod_NAICS pk
+    string Desc_NAICS
 }
 
 dim_standard_industrial_classification_w {
-    string SIC_Code pk
-    string SIC_Desc
+    string Cod_SIC pk
+    string Desc_SIC
 }
 
 
@@ -144,15 +139,15 @@ dim_coberturas_d {
 
 
 %% no longer degerate
-dim_policy_d{
-    string Policy_number pk
-    string Policy_type
+dim_poliza_d{
+    string Id_Poliza pk
+    string Desc_Poliza_tipo
     float Riesgo
     string Nombre_Underwriter
 }
 
 dim_Empleado_d {
-    string id
-    string FullName
+    string Id_Empleado pk
+    string Nombre_Completo
     string Fecha_Nacimiento
 }

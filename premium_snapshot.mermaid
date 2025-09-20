@@ -3,15 +3,15 @@ erDiagram
 
 %% fact table relationships
 
+%% Id_Empleado se refiere a cualquier empleado involucrado en una transacción específica. 
+%% Ejemplo: En una transacción de "modificación de póliza", el Id_Empleado podría ser un suscriptor (underwriter) que aprobó el cambio.
+
+%% Id_Agente se refiere específicamente al agente de ventas responsable de esa póliza. Es un rol específico y persistente.
 
 %% ft: facto, ss: frecuencia carga(segundos)
 ft_policytrans_ss {
-    string Id_Fecha_Transaccion fk   
-    %% se conecta con date_key
-    string Id_Fecha_Efectiva fk     
-    %% se conecta con date_key
-    string policyHolder_key fk
-    string Id_Empleado fk
+    string id_Mes_Final
+    string Id_Agente fk
     string Id_Covertura fk
     string Id_item fk
     string policy_transation_type_key fk
@@ -25,4 +25,10 @@ ft_policytrans_ss {
     timestamp etl_ts
 }
 
+
+%% Dimension Role Playing
+dim_Mes {
+    string id_Month pk
+    int month
+}
 
