@@ -1,37 +1,35 @@
 erDiagram
 
 %% Fechas
-dim_Fecha ||--|{ ft_claim_transaccion_ss: 
+dim_fecha ||--|{ ft_reclamo_transaccion_ss: 
     "Id_Fecha_Transaccion
     Id_Fecha_Efectiva"
 
-br_Grupo_Asegurado_d ||--|{ ft_claim_transaccion_ss: Id_Asegurado
-br_Grupo_Asegurado_d ||--|{ dim_Asegurado_d: Id_A
-dim_Asegurado_d ||--|{ br_Asegurado_Clasificacion_d: Id_Asegurado
-dim_north_american_industry_classification_w ||--|{ br_Asegurado_Clasificacion_d: Cod_NAICS
-dim_standard_industrial_classification_w ||--|{ br_Asegurado_Clasificacion_d: Cod_SIC
-dim_empleado ||--|{ ft_claim_transaccion_ss: 
+br_grupo_asegurado_d ||--|{ ft_reclamo_transaccion_ss: Id_Asegurado
+br_grupo_asegurado_d ||--|{ dim_asegurado_d: Id_A
+dim_asegurado_d ||--|{ br_asegurado_clasificacion_d: Id_Asegurado
+dim_north_american_industry_classification_w ||--|{ br_asegurado_clasificacion_d: Cod_Naics
+dim_standard_industrial_classification_w ||--|{ br_asegurado_clasificacion_d: Cod_Sic
+dim_empleado_d ||--|{ ft_reclamo_transaccion_ss: 
     "Id_Empleado
     Id_Agente"
-dim_coberturas_d ||--|{ ft_claim_transaccion_ss: 
+dim_coberturas_d ||--|{ ft_reclamo_transaccion_ss: 
     "Id_Cobertura
     Item_Cobertura"
-dim_Reclamador ||--|{ ft_claim_transaccion_ss: Id_Reclamador
-dim_Tercer_Persona_Pagador ||--|{ ft_claim_transaccion_ss: Id_Tercera_Persona_Pagador
-%%dim_Tipo_claim ||--|{ ft_claim_transaccion_ss: Id_Tipo_claim
-dim_Claim_Perfil ||--|{ ft_claim_transaccion_ss: Id_Perfil_Claim
-dim_Claim ||--|{ ft_claim_transaccion_ss: Id_Claim
+dim_reclamador_d ||--|{ ft_reclamo_transaccion_ss: Id_Reclamador
+dim_tercer_persona_pagador_d ||--|{ ft_reclamo_transaccion_ss: Id_Tercera_Persona_Pagador
+%%dim_tipo_reclamo_d ||--|{ ft_reclamo_transaccion_ss: Id_Tipo_Reclamo
+dim_reclamo_perfil_w ||--|{ ft_reclamo_transaccion_ss: Id_Perfil_Reclamo
+dim_reclamo_d ||--|{ ft_reclamo_transaccion_ss: Id_Reclamo
 
 %% Supertypes and subtypes
-link_item_cobertura_ss ||--|| ft_claim_transaccion_ss: Id_Item
+link_item_cobertura_ss ||--|| ft_reclamo_transaccion_ss: Id_Item
 dim_cobertura_auto_ss ||--|| link_item_cobertura_ss: Id_Item
 dim_cobertura_inmu_ss ||--|| link_item_cobertura_ss: Id_Item
 dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
 
-
-
 %% Fact
-ft_claim_transaccion_ss {
+ft_reclamo_transaccion_ss {
     string Id_Fecha_Transaccion fk
     string Id_Fecha_Efectiva fk
     string Id_Asegurado fk
@@ -41,18 +39,17 @@ ft_claim_transaccion_ss {
     string Item_Cobertura fk
     string Id_Reclamador fk
     string Id_Tercera_Persona_Pagador fk
-    string Id_Tipo_claim fk
-    string Id_Perfil_Claim fk
-    string Id_Claim fk
+    string Id_Tipo_Reclamo fk
+    string Id_Perfil_Reclamo fk
+    string Id_Reclamo fk
     string Id_Poliza
-    string Id_Claim_Transaccion
-    string Id_Claim_transaccion_Dolar
+    string Id_Reclamo_Transaccion
+    string Id_Reclamo_Transaccion_Dolar
     string Tipo_Transaccion
 }
 
-
 %% Dimension Role Playing
-dim_Fecha {
+dim_fecha {
     string Id_Fecha pk
     int Mes
     int Ano
@@ -64,43 +61,43 @@ dim_Fecha {
 
 
 
-br_Grupo_Asegurado_d {
+br_grupo_asegurado_d {
     string Id_Asegurado fk
-    string ID_Grupo_Asegurado
+    string Id_Grupo_Asegurado
 }
 
 
-dim_Asegurado_d {
+dim_asegurado_d {
     date Fecha_Edit
     string Id_Asegurado pk
     string Nombre_Completo
     string Fecha_Nacimiento 
     string Genero
-    int Cod_postal
+    int Cod_Postal
     string Desc_Segmento_Hist
     string Desc_Segmento
     string Estado_Civil
 }
 
 %% Bridge
-br_Asegurado_Clasificacion_d {
+br_asegurado_clasificacion_d {
     string Id_Asegurado fk
-    string NAICS_Code fk
-    string SIC_Code fk
+    string Naics_Code fk
+    string Sic_Code fk
 }
 
 dim_north_american_industry_classification_w {
-    string Cod_NAICS pk
-    string Desc_NAICS
+    string Cod_Naics pk
+    string Desc_Naics
 }
 
 dim_standard_industrial_classification_w {
-    string Cod_SIC pk
-    string Desc_SIC
+    string Cod_Sic pk
+    string Desc_Sic
 }
 
-dim_empleado {
-    string Id_empleado pk
+dim_empleado_d {
+    string Id_Empleado pk
     string Nombre
     string Region
     string Tipo
@@ -108,8 +105,8 @@ dim_empleado {
 }
 
 
-dim_Claim_Perfil{
-    string Id_Perfil_Claim pk
+dim_reclamo_perfil_w {
+    string Id_Perfil_Reclamo pk
     string Metodo_Reporte
     string Es_Catastrofico
     string Tipo_Perdida
@@ -117,18 +114,18 @@ dim_Claim_Perfil{
 }
 
 
-dim_Tercer_Persona_Pagador{
+dim_tercer_persona_pagador_d {
     string Id_Tercera_Persona_Pagador pk
-    tring Nombre_Completo
+    string Nombre_Completo
     string Fecha_Nacimiento 
     string Genero
-    int Cod_postal
+    int Cod_Postal
     string Desc_Segmento_Hist
     string Desc_Segmento
     string Estado_Civil
 }
 
-dim_Reclamador{
+dim_reclamador_d {
     string Id_Reclamador pk
     string Nombre
     string Direccion
@@ -141,11 +138,11 @@ dim_Reclamador{
 
 
 
-dim_Claim{
-    string Id_Claim pk
-    string Numero_Claim
-    string Estado_Claim  -- Abierto/Cerrado/Reabierto
-    string Descripcion_Claim
+dim_reclamo_d{
+    string Id_Reclamo pk
+    string Numero_Reclamo
+    string Estado_Reclamo  -- Abierto/Cerrado/Reabierto
+    string Descripcion_Reclamo
 }
 
 
@@ -155,7 +152,7 @@ dim_Claim{
 %% SUPERTYPE
 link_item_cobertura_ss {
     string Id_Item pk
-    string Linea_de_negocio
+    string Linea_De_Negocio
 }
 
 %% SUBTYPE
@@ -164,14 +161,14 @@ dim_cobertura_auto_ss {
     string Id_Cobertura fk
     string Desc_Marca
     int Ano_Fabricacion
-    string Desc_clasificacion
+    string Desc_Clasificacion
 }
 
 %% SUBTYPE
 dim_cobertura_inmu_ss {
     string Id_Item pk
     string Id_Cobertura fk
-    Int Metros_Cuadrados
+    int Metros_Cuadrados
     date Fecha_Construccion
     string Cod_Postal
 }
@@ -187,7 +184,7 @@ dim_cobertura_pers_ss {
 
 %% Coverages descriptiva
 dim_coberturas_d {
-    string Id_Covertura pk
+    string Id_Cobertura pk
     string Descripcion
     string Tipo_Cobertura
     string Categoria

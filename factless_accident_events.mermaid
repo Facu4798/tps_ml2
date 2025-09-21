@@ -21,21 +21,21 @@ dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
 
 dim_coberturas_d ||--|{ ft_accident_event_ss : 
     "Id_Cobertura"
-dim_claim_perfil_d ||--|{ ft_accident_event_ss : Id_Claim_Profile
+dim_reclamo_perfil_d ||--|{ ft_accident_event_ss : Id_Reclamo_Perfil
 
 
 %% Fact
 ft_accident_event_ss {
     %% falta la dimension de month end
-    string Id_Claim_Fecha_Perdida
+    string Id_Reclamo_Fecha_Perdida
     string Id_Asegurado fk
     string Id_Cobertura fk
     string Item_Cobertura fk
     string Id_Reclamador fk
     string Id_Perdida_Parte fk
     string Id_Perdida_Parte_Role fk
-    string Id_Claim_Profile fk
-    string Id_Claim
+    string Id_Reclamo_Perfil fk
+    string Id_Reclamo
     string Id_Poliza
 }
 
@@ -138,8 +138,8 @@ dim_coberturas_d {
 }
 
 
-dim_claim_perfil_d {
-    string Id_Perfil_Claim pk
+dim_reclamo_perfil_d {
+    string Id_Perfil_Reclamo pk
     string Metodo_Reporte
     string Es_Catastrofico
     string Tipo_Perdida
@@ -158,7 +158,7 @@ br_grupo_perdida_parte_d {
 }
 
 
-dim_perdida_parte_d{
+dim_perdida_parte_d {
     string Id_Perdida_Parte pk
     string Nombre
     string Direccion
