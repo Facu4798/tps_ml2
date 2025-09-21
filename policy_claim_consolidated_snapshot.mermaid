@@ -1,16 +1,33 @@
-
 erDiagram
 
+%% Fact
+ft_policy_claim_transaccion_ss {
+    %% falta la dimension de month end
+    string Id_Mes
+    string Id_Asegurado fk
+    string Id_Agente fk
+    string Id_Cobertura fk
+    string Item_Cobertura fk
+    string Id_Poliza
+    string Status_Poliza
+    string written_premium_revenue_amount
+    string Ganancia_premium_Escrita_monto
+    string Adquirida_premium_Ganancia_monto
+}
 
 
+%% Dimension Role Playing
+dim_Mes {
+    string Id_Fecha pk
+    int Mes
+}
 
-%% MULTIVALUED DIMENSION ATTRIBUTES (with bridge)
+
 
 br_Grupo_Asegurado_d {
     string Id_Asegurado fk
     string ID_Grupo_Asegurado
 }
-
 
 
 dim_Asegurado_d {
@@ -92,50 +109,6 @@ dim_coberturas_d {
 }
 
 
-%% no longer degerate
-dim_poliza_d{
-    string Id_Poliza pk
-    string Desc_Poliza_tipo
-    float Riesgo
-    string Nombre_Underwriter
-}
-
-
-
-
-
-%% FACT MONTHLY
-dim_agente ||--|{ ft_poliza_mes_ss: Id_Agente
-br_Grupo_Asegurado_d ||--|{ ft_poliza_mes_ss: Id_Asegurado
-br_Grupo_Asegurado_d ||--|{ dim_Asegurado_d: Id_Asegurado
-dim_coberturas_d ||--|{ ft_poliza_mes_ss: Id_Cobertura
-dim_poliza_d ||--|{ ft_poliza_mes_ss: Numero_Poliza
-%% Supertypes and subtypes
-link_item_cobertura_ss ||--|| ft_poliza_mes_ss: Id_Item
-dim_cobertura_auto_ss ||--|| link_item_cobertura_ss: Id_Item
-dim_cobertura_inmu_ss ||--|| link_item_cobertura_ss: Id_Item
-dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
-
-%% multivalued dimension
-dim_Asegurado_d ||--|{ br_Asegurado_Clasificacion_d: Id_Asegurado
-br_Asegurado_Clasificacion_d }|--|| dim_north_american_industry_classification_w: NAICS_Code
-br_Asegurado_Clasificacion_d }|--|| dim_standard_industrial_classification_w: SIC_Code
-
-
-%% Conformed Fact
-ft_poliza_mes_ss {
-    string Id_Mes fk
-    string ID_Grupo_Asegurado fk
-    string Id_Agente fk
-    string Id_Cobertura fk
-    string Id_Item fk
-    string Estado_Poliza fk
-    int Numero_Poliza fk
-    string Tipo_Operacion
-    string Tipo_Transaccion
-    float Ganancia_Premium_Escrita
-    float Ganancia_Premium_Adquirida
-}
 
 dim_agente {
     string Id_Agente pk

@@ -6,7 +6,8 @@ erDiagram
 dim_Fecha ||--|{ ft_policytrans_ss: 
     "Id_Fecha_Transaccion
     Id_Fecha_Efectiva"
-dim_Asegurado_d ||--|{ ft_policytrans_ss: Id_Asegurado
+br_Grupo_Asegurado_d ||--|{ ft_policytrans_ss: ID_Grupo_Asegurado
+br_Grupo_Asegurado_d ||--|{ dim_Asegurado_d: Id_Asegurado
 dim_Empleado_d ||--|{ ft_policytrans_ss: Id_Empleado
 %% Supertypes and subtypes
 link_item_cobertura_ss ||--|| ft_policytrans_ss: Id_Item
@@ -28,17 +29,17 @@ dim_poliza_d ||--|{ ft_policytrans_ss: Id_Poliza
 
 %% ft: facto, ss: frecuencia carga(segundos)
 ft_policytrans_ss {
-    string Id_Poliza_Transaccion pk
+    string Id_Poliza_Transaccion pk 
     string Id_Fecha_Transaccion fk   
     string Id_Fecha_Efectiva fk     
-    string Id_Asegurado fk
+    string ID_Grupo_Asegurado fk
     string Id_Empleado fk
     string Id_Cobertura fk
     string Id_Item fk
     Int Id_Poliza fk
     float Monto
-    string Id_Transaccion_Tipo pk
-    string Id_Operacion_Tipo 
+    string Transaccion_Tipo
+    string Operacion_Tipo 
     float Valuacion
     timestamp etl_ts
 }
@@ -58,6 +59,13 @@ dim_Fecha {
 
 
 %% MULTIVALUED DIMENSION ATTRIBUTES (with bridge)
+
+br_Grupo_Asegurado_d {
+    string Id_Asegurado fk
+    string ID_Grupo_Asegurado
+}
+
+
 
 dim_Asegurado_d {
     date Fecha_Edit
@@ -150,5 +158,5 @@ dim_Empleado_d {
     string Id_Empleado pk
     string Nombre_Completo
     string Fecha_Nacimiento
-    string Area
 }
+

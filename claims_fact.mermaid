@@ -1,0 +1,196 @@
+erDiagram
+
+%% Fechas
+dim_Fecha ||--|{ ft_claim_transaccion_ss: 
+    "Id_Fecha_Transaccion
+    Id_Fecha_Efectiva"
+
+br_Grupo_Asegurado_d ||--|{ ft_claim_transaccion_ss: Id_Asegurado
+br_Grupo_Asegurado_d ||--|{ dim_Asegurado_d: Id_A
+dim_Asegurado_d ||--|{ br_Asegurado_Clasificacion_d: Id_Asegurado
+dim_north_american_industry_classification_w ||--|{ br_Asegurado_Clasificacion_d: Cod_NAICS
+dim_standard_industrial_classification_w ||--|{ br_Asegurado_Clasificacion_d: Cod_SIC
+dim_empleado ||--|{ ft_claim_transaccion_ss: 
+    "Id_Empleado
+    Id_Agente"
+dim_coberturas_d ||--|{ ft_claim_transaccion_ss: 
+    "Id_Cobertura
+    Item_Cobertura"
+dim_Reclamador ||--|{ ft_claim_transaccion_ss: Id_Reclamador
+dim_Tercer_Persona_Pagador ||--|{ ft_claim_transaccion_ss: Id_Tercera_Persona_Pagador
+%%dim_Tipo_claim ||--|{ ft_claim_transaccion_ss: Id_Tipo_claim
+dim_Claim_Perfil ||--|{ ft_claim_transaccion_ss: Id_Perfil_Claim
+dim_Claim ||--|{ ft_claim_transaccion_ss: Id_Claim
+
+%% Supertypes and subtypes
+link_item_cobertura_ss ||--|| ft_claim_transaccion_ss: Id_Item
+dim_cobertura_auto_ss ||--|| link_item_cobertura_ss: Id_Item
+dim_cobertura_inmu_ss ||--|| link_item_cobertura_ss: Id_Item
+dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
+
+
+
+%% Fact
+ft_claim_transaccion_ss {
+    string Id_Fecha_Transaccion fk
+    string Id_Fecha_Efectiva fk
+    string Id_Asegurado fk
+    string Id_Empleado fk
+    string Id_Agente fk
+    string Id_Cobertura fk
+    string Item_Cobertura fk
+    string Id_Reclamador fk
+    string Id_Tercera_Persona_Pagador fk
+    string Id_Tipo_claim fk
+    string Id_Perfil_Claim fk
+    string Id_Claim fk
+    string Id_Poliza
+    string Id_Claim_Transaccion
+    string Id_Claim_transaccion_Dolar
+    string Tipo_Transaccion
+}
+
+
+%% Dimension Role Playing
+dim_Fecha {
+    string Id_Fecha pk
+    int Mes
+    int Ano
+    int Dia
+    int Trimestre
+    string Dia_Semana
+    bool Feriado
+}
+
+
+
+br_Grupo_Asegurado_d {
+    string Id_Asegurado fk
+    string ID_Grupo_Asegurado
+}
+
+
+dim_Asegurado_d {
+    date Fecha_Edit
+    string Id_Asegurado pk
+    string Nombre_Completo
+    string Fecha_Nacimiento 
+    string Genero
+    int Cod_postal
+    string Desc_Segmento_Hist
+    string Desc_Segmento
+    string Estado_Civil
+}
+
+%% Bridge
+br_Asegurado_Clasificacion_d {
+    string Id_Asegurado fk
+    string NAICS_Code fk
+    string SIC_Code fk
+}
+
+dim_north_american_industry_classification_w {
+    string Cod_NAICS pk
+    string Desc_NAICS
+}
+
+dim_standard_industrial_classification_w {
+    string Cod_SIC pk
+    string Desc_SIC
+}
+
+dim_empleado {
+    string Id_empleado pk
+    string Nombre
+    string Region
+    string Tipo
+    %% Agente o no agente
+}
+
+
+dim_Claim_Perfil{
+    string Id_Perfil_Claim pk
+    string Metodo_Reporte
+    string Es_Catastrofico
+    string Tipo_Perdida
+    string Zona_Perdida
+}
+
+
+dim_Tercer_Persona_Pagador{
+    string Id_Tercera_Persona_Pagador pk
+    tring Nombre_Completo
+    string Fecha_Nacimiento 
+    string Genero
+    int Cod_postal
+    string Desc_Segmento_Hist
+    string Desc_Segmento
+    string Estado_Civil
+}
+
+dim_Reclamador{
+    string Id_Reclamador pk
+    string Nombre
+    string Direccion
+    string Ciudad
+    string Estado
+    string Codigo_Postal
+    string Telefono
+    string Tipo
+}
+
+
+
+dim_Claim{
+    string Id_Claim pk
+    string Numero_Claim
+    string Estado_Claim  -- Abierto/Cerrado/Reabierto
+    string Descripcion_Claim
+}
+
+
+
+%% SUPERTYPES AND SUBTYPES
+
+%% SUPERTYPE
+link_item_cobertura_ss {
+    string Id_Item pk
+    string Linea_de_negocio
+}
+
+%% SUBTYPE
+dim_cobertura_auto_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    string Desc_Marca
+    int Ano_Fabricacion
+    string Desc_clasificacion
+}
+
+%% SUBTYPE
+dim_cobertura_inmu_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    Int Metros_Cuadrados
+    date Fecha_Construccion
+    string Cod_Postal
+}
+
+%% SUBTYPE
+dim_cobertura_pers_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    string Desc_Item
+}
+
+
+
+%% Coverages descriptiva
+dim_coberturas_d {
+    string Id_Covertura pk
+    string Descripcion
+    string Tipo_Cobertura
+    string Categoria
+    float Limite
+    float Deducible
+}

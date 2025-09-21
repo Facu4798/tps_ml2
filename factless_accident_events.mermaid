@@ -1,0 +1,183 @@
+erDiagram
+
+
+br_grupo_asegurado_d ||--|{ ft_accident_event_ss : "Id_Asegurado"
+br_grupo_perdida_parte_d ||--|{ ft_accident_event_ss : "Id_Perdida_Parte"
+br_grupo_perdida_parte_d ||--|{ dim_perdida_parte_d : "Id_Perdida_Parte"
+br_grupo_asegurado_d ||--|{ dim_asegurado_d : "Id_Asegurado"
+ft_accident_event_ss ||--|| dim_fecha : "Id_Claim_Fecha_Perdida"
+br_asegurado_clasificacion_d ||--|{ dim_asegurado_d : "Id_Asegurado"
+br_asegurado_clasificacion_d ||--|{ dim_north_american_industry_classification_w : "Naics_Code"
+br_asegurado_clasificacion_d ||--|{ dim_standard_industrial_classification_w : "Sic_Code"
+br_grupo_reclamador_d ||--|{ ft_accident_event_ss : "Id_Reclamador"
+br_grupo_reclamador_d ||--|{ dim_reclamador : "Id_Reclamador"
+
+%% Supertypes and subtypes
+link_item_cobertura_ss ||--|| ft_accident_event_ss: Id_Item
+dim_cobertura_auto_ss ||--|| link_item_cobertura_ss: Id_Item
+dim_cobertura_inmu_ss ||--|| link_item_cobertura_ss: Id_Item
+dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
+
+
+dim_coberturas_d ||--|{ ft_accident_event_ss : 
+    "Id_Cobertura"
+dim_claim_perfil ||--|{ ft_accident_event_ss : Id_Claim_Profile
+
+
+%% Fact
+ft_accident_event_ss {
+    %% falta la dimension de month end
+    string Id_Claim_Fecha_Perdida
+    string Id_Asegurado fk
+    string Id_Cobertura fk
+    string Item_Cobertura fk
+    string Id_Reclamador fk
+    string Id_Perdida_Parte fk
+    string Id_Perdida_Parte_Role fk
+    string Id_Claim_Profile fk
+    string Id_Claim
+    string Id_Poliza
+}
+
+
+%% Dimension Role Playing
+dim_fecha {
+    string Id_Fecha pk
+    int Mes
+    int Ano
+    int Dia
+    int Trimestre
+    string Dia_Semana
+    bool Feriado
+}
+
+
+
+br_grupo_asegurado_d {
+    string Id_Asegurado fk
+    string Id_Grupo_Asegurado
+}
+
+
+dim_asegurado_d {
+    date Fecha_Edit
+    string Id_Asegurado pk
+    string Nombre_Completo
+    string Fecha_Nacimiento 
+    string Genero
+    int Cod_Postal
+    string Desc_Segmento_Hist
+    string Desc_Segmento
+    string Estado_Civil
+}
+
+%% Bridge
+br_asegurado_clasificacion_d {
+    string Id_Asegurado fk
+    string Naics_Code fk
+    string Sic_Code fk
+}
+
+dim_north_american_industry_classification_w {
+    string Cod_Naics pk
+    string Desc_Naics
+}
+
+dim_standard_industrial_classification_w {
+    string Cod_Sic pk
+    string Desc_Sic
+}
+
+
+
+
+
+%% SUPERTYPES AND SUBTYPES
+
+%% SUPERTYPE
+link_item_cobertura_ss {
+    string Id_Item pk
+    string Linea_De_Negocio
+}
+
+%% SUBTYPE
+dim_cobertura_auto_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    string Desc_Marca
+    int Ano_Fabricacion
+    string Desc_Clasificacion
+}
+
+%% SUBTYPE
+dim_cobertura_inmu_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    int Metros_Cuadrados
+    date Fecha_Construccion
+    string Cod_Postal
+}
+
+%% SUBTYPE
+dim_cobertura_pers_ss {
+    string Id_Item pk
+    string Id_Cobertura fk
+    string Desc_Item
+}
+
+
+
+%% Coverages descriptiva
+dim_coberturas_d {
+    string Id_Cobertura pk
+    string Descripcion
+    string Tipo_Cobertura
+    string Categoria
+    float Limite
+    float Deducible
+}
+
+
+dim_claim_perfil{
+    string Id_Perfil_Claim pk
+    string Metodo_Reporte
+    string Es_Catastrofico
+    string Tipo_Perdida
+    string Zona_Perdida
+}
+
+
+br_grupo_reclamador_d {
+    string Id_Reclamador fk
+    string Id_Grupo_Reclamador
+}
+
+br_grupo_perdida_parte_d {
+    string Id_Perdida_Parte fk
+    string Id_Grupo_Perdida_Parte
+}
+
+
+dim_perdida_parte_d{
+    string Id_Perdida_Parte pk
+    string Nombre
+    string Direccion
+    string Ciudad
+    string Estado
+    string Cod_Postal
+    string Telefono
+    string Tipo
+
+}
+
+
+dim_reclamador{
+    string Id_Reclamador pk
+    string Nombre
+    string Direccion
+    string Ciudad
+    string Estado
+    string Cod_Postal
+    string Telefono
+    string Tipo
+}
