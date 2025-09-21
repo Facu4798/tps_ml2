@@ -10,7 +10,7 @@ br_asegurado_clasificacion_d ||--|{ dim_asegurado_d : "Id_Asegurado"
 br_asegurado_clasificacion_d ||--|{ dim_north_american_industry_classification_w : "Naics_Code"
 br_asegurado_clasificacion_d ||--|{ dim_standard_industrial_classification_w : "Sic_Code"
 br_grupo_reclamador_d ||--|{ ft_accident_event_ss : "Id_Reclamador"
-br_grupo_reclamador_d ||--|{ dim_reclamador : "Id_Reclamador"
+br_grupo_reclamador_d ||--|{ dim_reclamador_d : "Id_Reclamador"
 
 %% Supertypes and subtypes
 link_item_cobertura_ss ||--|| ft_accident_event_ss: Id_Item
@@ -21,7 +21,7 @@ dim_cobertura_pers_ss ||--|| link_item_cobertura_ss: Id_Item
 
 dim_coberturas_d ||--|{ ft_accident_event_ss : 
     "Id_Cobertura"
-dim_claim_perfil ||--|{ ft_accident_event_ss : Id_Claim_Profile
+dim_claim_perfil_d ||--|{ ft_accident_event_ss : Id_Claim_Profile
 
 
 %% Fact
@@ -138,7 +138,7 @@ dim_coberturas_d {
 }
 
 
-dim_claim_perfil{
+dim_claim_perfil_d {
     string Id_Perfil_Claim pk
     string Metodo_Reporte
     string Es_Catastrofico
@@ -171,7 +171,7 @@ dim_perdida_parte_d{
 }
 
 
-dim_reclamador{
+dim_reclamador_d {
     string Id_Reclamador pk
     string Nombre
     string Direccion
